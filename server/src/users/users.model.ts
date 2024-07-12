@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Role } from 'src/roles/roles.model';
+import { UserRoles } from 'src/roles/user_roles.model copy';
 
 // поля которые будут нужны для создания объекта
 interface UserCreationAttribute {
@@ -74,7 +82,7 @@ export class User extends Model<User, UserCreationAttribute> {
   })
   @Column({
     type: DataType.STRING,
-    allowNull: false,
+    allowNull: true,
   })
   image: string;
 
@@ -97,4 +105,7 @@ export class User extends Model<User, UserCreationAttribute> {
     allowNull: true,
   })
   banReason: string;
+
+  @BelongsToMany(() => Role, () => UserRoles)
+  roles: Role[];
 }
