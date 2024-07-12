@@ -3,6 +3,10 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { UsersModule } from './users/users.module';
 import { User } from './users/users.model';
+import { RolesModule } from './roles/roles.module';
+import { Role } from './roles/roles.model';
+import { UserRoles } from './roles/user_roles.model copy';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   // чтобы контроллеры, провайдеры и др заработали, их нужно зарегестрировать в модуле
@@ -20,10 +24,12 @@ import { User } from './users/users.model';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User],
+      models: [User, Role, UserRoles],
       autoLoadModels: true,
     }),
     UsersModule,
+    RolesModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
